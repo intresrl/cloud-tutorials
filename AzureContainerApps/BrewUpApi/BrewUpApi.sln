@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "90 Presentation", "90 Presentation", "{91594C81-F4F3-4E50-86F2-E4D976AB94BC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "50 Modules", "50 Modules", "{0C539EB1-F3F2-40DB-B675-C05029611B50}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sales", "Sales", "{8EDE9738-6FFC-420A-842E-395AC32A7488}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrewUpApi", "BrewUpApi\BrewUpApi.csproj", "{0A72ED90-3D28-4255-9FCA-20700A5FFA05}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BrewUpApi.Modules.Sales", "Sales\BrewUpApi.Modules.Sales\BrewUpApi.Modules.Sales.csproj", "{7107D538-A31B-4D19-A354-9659F6011924}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8BB9E23C-300A-47F2-8E2A-E80C6B937601}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0A72ED90-3D28-4255-9FCA-20700A5FFA05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A72ED90-3D28-4255-9FCA-20700A5FFA05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A72ED90-3D28-4255-9FCA-20700A5FFA05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A72ED90-3D28-4255-9FCA-20700A5FFA05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7107D538-A31B-4D19-A354-9659F6011924}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7107D538-A31B-4D19-A354-9659F6011924}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7107D538-A31B-4D19-A354-9659F6011924}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7107D538-A31B-4D19-A354-9659F6011924}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8EDE9738-6FFC-420A-842E-395AC32A7488} = {0C539EB1-F3F2-40DB-B675-C05029611B50}
+		{0A72ED90-3D28-4255-9FCA-20700A5FFA05} = {91594C81-F4F3-4E50-86F2-E4D976AB94BC}
+		{7107D538-A31B-4D19-A354-9659F6011924} = {8EDE9738-6FFC-420A-842E-395AC32A7488}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {31A9C602-BA53-4BD5-9062-29657C6FAE61}
+	EndGlobalSection
+EndGlobal

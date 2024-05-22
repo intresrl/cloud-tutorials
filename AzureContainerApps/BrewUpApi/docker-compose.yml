@@ -1,0 +1,8 @@
+﻿services:
+  brewupapi:
+    image: brewupapi
+    build:
+      context: .
+      dockerfile: BrewUpApi/Dockerfile
+    ports:
+      - 5800:8080
