@@ -69,10 +69,80 @@ Il secondo per attivare il monitoring della nostra applicazione
 az provider register --namespace Microsoft.OperationalInsights
 ```
 Abbiamo così terminato la configurazione della CLI di Azure, e possiamo cominciare a settare la nostra applicazione.  
+### Environment
 Definiamo le variabili d'ambiente  
 ```
 export RESOURCE_GROUP="brewupapi"
-export LOCATION="weteurope"
+export LOCATION="westeurope"
 export ENVIRONMENT="brewup-env-containerapps"
+export REGISTRY="brewupregistry"
 export API_NAME="brewupapi"
 ```
+### Source Code
+Ora che abbiamo settato le variabili d'ambiente, ci serve il codice. Lo potete trovare [qui](https://github.com/intresrl/cloud-tutorials/tree/main/AzureContainerApps/BrewUpApi)  
+Potete aprire il codice con Visual Studio, Rider, o Visual Studio Code, ma in ogni caso è necessario avere l'SDK di .NET 8 installato, che potete trovare [qui](https://dotnet.microsoft.com/en-us/download/dotnet/8.0), se volete provare la soluzione sul vostro PC prima di pubblicarla.  
+In alternativa potete creare immagine e container e provarla in locale da Docker  
+```
+docker build -t brewupapi .
+docker-compose up -d
+```
+Potete verificare la corretta esecuzione aprendo il browser per visualizzare la [documentazione](http://localhost:5800/documentation/index.html) della nostra API.  
+
+### Resource Group
+```
+az group create --location <LOCATION> --resource-group <RESOURCE_GROUP>
+```
+### Container Registry
+```
+az acr create --name <REGISTRY> --resource-group <RESOURCE_GROUP> --sku Standard
+```
+### Build and Push Image
+In ordine, prepariamo l'immagine, settiamo il tag, ci autentichiamo sul Registry ed infine pubblichiamo
+```
+docker build -t brewupapi .
+docker tag brewupapi brewupregistry.azurecr.io/cps/brewupapi
+az acr login --name <REGISTRY>
+docker push brewupregistry.azurecr.io/cps/brewupapi
+```
+### Container Apps
+Siamo pronti a pubblicare l'app
+```
+## Deploy image to a container app
+az containerapp create  
+  --name <API_NAME>  
+  --resource-group <RESOURCE_GROUP>  
+  --environment <ENVIRONMENT>  
+  --image brewupregistry.azurecr.io/cps/brewupapi  
+  --target-port 8080  
+  --ingress external  
+  ```
+Di tutti i parametri necessari al comando, fatte attenzione alla porta esposta, .NET di default espone la 8080, ed al parametro "ingress external" che espone la nostra API al mondo intero.  
+
+## Pubblicazione da VisualStudio
+Aprendo la solution direttamente da VisualStudio è possibile pubblicare l'app direttamente.  
+Lo wizard ci permette di creare tutte le risorse necessarie, ossia ResourceGroup, Registry e ContainerApp.  
+L'operazione è abbastanza semplice, e soprattutto interamente guidata, ma una volta terminata, fate attenzione ad un piccolo particolare.  
+Probabilmente l'operazione risulterà conclusa correttamente, ma voi vedrete soltanto la pagina di default delle Container Apps di Azure, e non la nostra API.  
+Dovere collegarvi al [portale di Azure](https://portal.azure.com) e andare nella vostra Container App.  
+Dal menù sulla sinistra, nella sezione "Settings", aprite la pagina "Ingress" e verificate la porta con cui l'app è esposta. Deve essere 8080, e non 80 come potrebbe essere da default.  
+Se non avete esposto la porta 443 (https), dovete anche assicurarvi che il flag "Insecure connections" sia spuntato.
+
+## Azure Container App Environment
+Questa risorsa, visto il ruolo chiave che ricopre nell'eco sistema Container Apps, merita un piccolo approfondimento.  
+Un Azure Contaier Apps Environment è un confine sicuro attorno ad una o più applicazioni, il che significa che possiamo pubblicare più applicazioni nello stesso ambiente.  
+Cosa significa?  
+Significa che l'ambiente gestisce gli aggiornamenti a livello infrastrutturale, essendo il tutto interamente gestito da Azure, ci è garantito per tutte le applicazioni, ma  
+anche le operazioni di scalabilità si applicano a tutte le applicazioni contenute nell'ambiente, così come le procedure di failover ed il bilanciamento delle risorse.  
+Se la nostra applicazione è piccola, ed effettivamente ogni applicazione deve scalare all'unisono, questo è perfetto perché ci permette di risparmiare qualche soldo.  
+Se però abbiamo bisogno di scalare diversamente le nostra applicazioni, allora dovremo creare più ambienti per ogni applicazione pubblicata.  
+All'interno della risorsa Azure Container App Environment, sotto la sezione "Settings", trovate "Workload profiles". In questa sezione potete configurare il tipo di  
+macchina da utilizzare per le vostre risorse, e quindi i soldi che andrete a spendere mensilmente.
+
+
+## Summary
+Le Container Apps sono un'ottima alternativa al servizio AKS (Azure Kubernetes Service) offerto da Azure.  
+Hanno costi decisamente più ridotti, permettono la scalabilità da 0 a n istanze, il che significa che pagherete solo per il reale utilizzo della risorsa.  
+Il fatto di non dover gestire AKS ci solleva da parecchi mal di testa, ma allo stesso tempo, essendo applicazioni già compatibili con i container, siamo pronti a scalare in qualsiasi momento.  
+Inoltre, fatto non trascurabile, sono molto più indipendenti dal Cloud Provider rispetto alle App Service, in quanto distribute tramite container docker.  
+
+
