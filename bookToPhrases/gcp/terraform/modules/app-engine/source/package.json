@@ -1,0 +1,17 @@
+{
+  "name": "appengine-sample",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@google-cloud/bigquery": "^7.7.0",
+    "express": "^4.19.2",
+    "node-json2html": "^3.0.0"
+  }
+}

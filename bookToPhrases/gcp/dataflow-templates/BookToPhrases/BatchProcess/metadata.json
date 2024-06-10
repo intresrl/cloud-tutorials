@@ -1,0 +1,29 @@
+{
+  "name": "Getting started Java flex template",
+  "description": "An example flex template for Java.",
+  "parameters": [
+    {
+      "name": "inputFile",
+      "label": "GS file path to load.",
+      "helpText": "GS file path to load.",
+      "regexes": [
+        "^gs:\\/\\/[^\\n\\r]+$"
+      ]
+    },
+    {
+      "name": "bigQueryProjectId",
+      "label": "The BigQuery's project ID.",
+      "helpText": "The BigQuery's project ID."
+    },
+    {
+      "name": "bigQueryDatasetName",
+      "label": "The BigQuery's dataset name.",
+      "helpText": "The BigQuery's dataset name."
+    },
+    {
+      "name": "bigQueryTableName",
+      "label": "The BigQuery's table name.",
+      "helpText": "The BigQuery's table name."
+    }
+  ]
+}
