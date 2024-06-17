@@ -33,13 +33,12 @@ resource "google_storage_bucket" "website" {
   depends_on = [google_project_service.gcp_services]
 }
 
-# Create public access role to access the bucket
-/*resource "google_storage_bucket_access_control" "public_rule" {
+# Make the bucket public
+resource "google_storage_bucket_iam_member" "member" {
   bucket = google_storage_bucket.website.name
-  role   = "READER"
-  entity = "allUsers"
+  role   = "roles/storage.objectViewer"
+  member = "allUsers"
 }
-*/
 
 # Load files on bucket
 locals {
@@ -47,7 +46,7 @@ locals {
 }
 resource "google_storage_bucket_object" "default" {
   for_each = fileset(path.module, "${local.src_path}/**")
-  name         = replace(each.value, "/^${local.src_path}\\//", "")
-  source       = each.value
-  bucket       = google_storage_bucket.website.id
+  name     = replace(each.value, "/^${local.src_path}\\//", "")
+  source   = each.value
+  bucket   = google_storage_bucket.website.id
 }
