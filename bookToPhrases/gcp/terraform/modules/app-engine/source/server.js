@@ -17,9 +17,11 @@ app.listen(PORT, () => {
 });
 
 async function queryBigQuery(projectId, datasetId, tableId, location) {
-    const query = `SELECT *
-                   FROM \`${projectId}.${datasetId}.${tableId}\` LIMIT 10`;
 
+    const query = `SELECT *  
+                    FROM \`${projectId}.${datasetId}.${tableId}\` 
+                    WHERE RAND() < 100 / 
+                                   (SELECT count(words_count)  FROM \`${projectId}.${datasetId}.${tableId}\`)`;
     // For all options, see https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/query
     const options = {
         query: query,
@@ -65,19 +67,20 @@ function prettyPrint(rows) {
         let table_header = json2html.render(rows[0], template_table_header);
         let table_body = json2html.render(rows, template_table_body);
 
-        body = `<!DOCTYPE html>
-                    <html lang="en">
-                    <head>
-                        <title>Intré - Book phrases</title>
-                    </head>
-                    <h1>Intré - Book phrases (10 rows only)</h1>
+        body = `<h2>Random Book Phrases: A Sample of ~100</h2>
                     <br>
                     <table id="table">
                         <thead>${table_header}</thead>
                         <tbody>${table_body}</tbody>
                     </table>`;
     } else {
-        body = 'No data found';
+        body = '<h2>No data found</h2>';
     }
-    return body;
+    return `<!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                        <title>Intré - Book phrases</title>
+                    </head>
+                    <h1>Intré - Book phrases</h1>
+                    ${body}`;
 }
