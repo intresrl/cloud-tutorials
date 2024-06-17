@@ -1,21 +1,20 @@
-variable "project_id" {
+variable "project" {
   type        = string
   description = "Project id"
 }
+
 variable "location" {
   type        = string
   default     = "europe-west8"
   description = "Location"
 }
+
 variable "bucket_name" {
   type        = string
-  default     = "static-website-bucket"
-  description = "Location"
+  description = "website bucket name"
 }
+
 variable "domain" {
   type        = string
-  default     = "cloud-web-app.intre.it"
-  description = "Domain of your website"
+  description = "domain name"
 }
-
-

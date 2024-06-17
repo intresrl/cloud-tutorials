@@ -14,5 +14,5 @@ This project install a static website on a GCP bucket, you can find an article a
 # Installation procedure
 ```
 terraform init
-terraform apply -var project_id=temp-423715
+terraform apply -var project_id=temp-423715 #TODO
 ```
