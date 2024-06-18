@@ -5,7 +5,7 @@ This project install a static website on a GCP bucket, you can find an article a
 # Diagram
 
 The following diagram the resources created by this project.
-![Alt text](./images/diagram.drawio.png "GCP resources diagram")
+![GCP resources diagram](./images/diagram.drawio.png "GCP resources diagram")
 
 # Arguments
 
