@@ -3,7 +3,6 @@
 # - https://cloud.google.com/load-balancing/docs/ssl-certificates/google-managed-certs
 # - https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_url_map
 
-
 # Create LB backend buckets
 resource "google_compute_backend_bucket" "be_bucket_website" {
   name        = "be-${var.bucket_name}"
@@ -17,11 +16,11 @@ resource "google_compute_url_map" "default" {
 
   default_service = google_compute_backend_bucket.be_bucket_website.id
 
-#   host_rule {
-#     #hosts        = [var.domain]
-#     hosts        = ["*"]
-#     path_matcher = "allpaths"
-#   }
+  #   host_rule {
+  #     #hosts        = [var.domain]
+  #     hosts        = ["*"]
+  #     path_matcher = "allpaths"
+  #   }
 
   #   host_rule {
   #     hosts        = ["*"]
@@ -38,11 +37,6 @@ resource "google_compute_url_map" "default" {
   #   }
 }
 
-# Reserve IP address
-resource "google_compute_global_address" "ip" {
-  name = "${var.bucket_name}-public-ip"
-}
-
 # SSL certificate
 resource "google_compute_managed_ssl_certificate" "lb_default" {
   provider = google-beta
@@ -53,6 +47,7 @@ resource "google_compute_managed_ssl_certificate" "lb_default" {
   }
 }
 
+# Https proxy
 resource "google_compute_target_https_proxy" "default" {
   name             = "test-proxy"
   project          = var.project
@@ -60,6 +55,10 @@ resource "google_compute_target_https_proxy" "default" {
   ssl_certificates = [google_compute_managed_ssl_certificate.lb_default.id]
 }
 
+# Reserve IP address
+resource "google_compute_global_address" "ip" {
+  name = "${var.bucket_name}-public-ip"
+}
 
 # Create forwarding rule
 resource "google_compute_global_forwarding_rule" "default" {

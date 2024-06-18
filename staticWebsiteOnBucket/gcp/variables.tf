@@ -14,7 +14,6 @@ variable "bucket_name" {
 }
 variable "domain" {
   type        = string
-  default     = "cloud-web-app.intre.it"
   description = "Domain of your website"
 }
 
