@@ -37,8 +37,8 @@ locals {
 resource "google_storage_bucket_object" "default" {
   for_each = fileset(path.module, "${local.src_path}/**")
   name = replace(each.value, "/^${local.src_path}\\//", "")
-  source = "modules/website/${each.value}"
+  source       = "modules/website/${each.value}"
   bucket = google_storage_bucket.website.id
-  content_type = lookup(local.content_types, element(split(".", each.value), length(split(".", each.value)) - 1), "text/plain")
+  content_type = lookup(local.content_types, regex("\\.([0-9a-z]+$)", each.value)[0])
 }
 
