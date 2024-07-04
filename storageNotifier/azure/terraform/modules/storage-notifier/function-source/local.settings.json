@@ -1,0 +1,11 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "AzureWebJobsFeatureFlags": "EnableWorkerIndexing",
+    "landarea_STORAGE": "",
+    "MAIL_RECEIVER": "",
+    "MAIL_SENDER": "",
+    "SENDGRID_API_KEY": ""
+  }
+}
