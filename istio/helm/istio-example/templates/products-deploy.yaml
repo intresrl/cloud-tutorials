@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: products
+  name: products
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: products
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: products
+    spec:
+      containers:
+      - image: th3nu11/istio-example:product-service
+        imagePullPolicy: Always
+        name: istio-example

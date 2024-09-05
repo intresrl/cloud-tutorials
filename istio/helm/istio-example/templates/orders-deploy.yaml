@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: orders
+  name: orders
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orders
+  template:
+    metadata:
+      labels:
+        app: orders
+    spec:
+      containers:
+        - image: th3nu11/istio-example:order-service
+          name: istio-example
+          imagePullPolicy: Always
+          env:
+            - name: CUSTOMERS_SERVICE_HOST
+              value: http://customers:80
+            - name: PRODUCTS_SERVICE_HOST
+              value: http://products:80
+

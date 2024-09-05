@@ -1,0 +1,23 @@
+version: "3.5"
+
+services:
+  order:
+    image: th3nu11/istio-example:order-service
+    environment:
+        - PORT=80
+        - CUSTOMERS_SERVICE_HOST=http://customer:80
+        - PRODUCTS_SERVICE_HOST=http://product:80
+    ports:
+      - 50005:80
+  product:
+    image: th3nu11/istio-example:product-service
+    environment:
+      - PORT=80
+    ports:
+      - 50004:80
+  customer:
+    image: th3nu11/istio-example:customer-service
+    environment:
+      - PORT=80
+    ports:
+      - 50003:80
