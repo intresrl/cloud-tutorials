@@ -3,25 +3,28 @@ kind: Deployment
 metadata:
   labels:
     app: customers
-    version: v1
-  name: customers
+    version: v3
+  name: customers-v3
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: customers
-      version: v1
+      version: v3
   strategy: {}
   template:
     metadata:
       labels:
         app: customers
-        version: v1
+        version: v3
     spec:
       containers:
       - image: th3nu11/istio-example:customer-service
         imagePullPolicy: Always
         name: istio-example
+        env:
+        - name: THROW_ERROR
+          value: "True"
         resources:
           requests:
             memory: "40Mi"

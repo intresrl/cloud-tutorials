@@ -4,7 +4,7 @@ const getAllAsyncHandler = (async (req, res, next) => {
     try {
 
         res.status(200).json({
-            success: true, data: await ordersService.getAllAsync()
+            success: true, data: await ordersService.getAllAsync({'Istio-demo': req.headers['Istio-demo'] || null})
         });
     } catch (err) {
 

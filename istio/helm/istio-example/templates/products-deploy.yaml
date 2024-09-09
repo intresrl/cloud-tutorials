@@ -3,9 +3,10 @@ kind: Deployment
 metadata:
   labels:
     app: products
+    version: v1
   name: products
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: products
@@ -14,8 +15,13 @@ spec:
     metadata:
       labels:
         app: products
+        version: v1
     spec:
       containers:
       - image: th3nu11/istio-example:product-service
         imagePullPolicy: Always
         name: istio-example
+        resources:
+          requests:
+            memory: "50Mi"
+

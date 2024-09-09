@@ -3,9 +3,10 @@ kind: Deployment
 metadata:
   labels:
     app: orders
+    version: v1
   name: orders
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: orders
@@ -13,11 +14,15 @@ spec:
     metadata:
       labels:
         app: orders
+        version: v1
     spec:
       containers:
         - image: th3nu11/istio-example:order-service
           name: istio-example
           imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "40Mi"
           env:
             - name: CUSTOMERS_SERVICE_HOST
               value: http://customers:80

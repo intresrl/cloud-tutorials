@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: istio-example-ingress
 spec:
-  ingressClassName: nginx
+  ingressClassName: {{ .Values.ingressClassName }}
   rules:
     - http:
         paths:

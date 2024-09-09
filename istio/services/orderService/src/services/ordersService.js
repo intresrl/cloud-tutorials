@@ -1,13 +1,13 @@
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
-const getAllAsync = async () => {
+const getAllAsync = async (headers) => {
 
     const [orders,
         customersMap,
         productsMap]
         = await Promise.all([getAllRawAsync(),
-        GetCustomersMapAsync(),
-        GetProductsMapAsync()]);
+        GetCustomersMapAsync(headers),
+        GetProductsMapAsync(headers)]);
 
     const propertyToRemoved = 'customerId';
     return orders.map(order => {
@@ -22,16 +22,16 @@ const getAllAsync = async () => {
     });
 };
 
-async function GetCustomersMapAsync() {
+async function GetCustomersMapAsync(headers) {
     const productHost = process.env.CUSTOMERS_SERVICE_HOST || 'http://localhost:5003';
-    const response = await fetch(`${productHost}/api/v1/customers/`);
+    const response = await fetch(`${productHost}/api/v1/customers/`, {headers});
     const {data} = await response.json();
     return new Map(data.map(i => [i.id, {name: i.name, surname: i.surname}]));
 }
 
-async function GetProductsMapAsync() {
+async function GetProductsMapAsync(headers) {
     const productHost = process.env.PRODUCTS_SERVICE_HOST || 'http://localhost:5001';
-    const response = await fetch(`${productHost}/api/v1/products/`);
+    const response = await fetch(`${productHost}/api/v1/products/`, {headers});
     const {data} = await response.json();
     return new Map(data.map(i => [i.id, i.name]));
 }
