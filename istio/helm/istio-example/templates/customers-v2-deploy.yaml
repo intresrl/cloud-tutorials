@@ -24,9 +24,9 @@ spec:
         name: istio-example
         env:
         - name: MAX_DELAY_SECONDS
-          value: "10"
+          value: {{ .Values.delaySeconds.max }}
         - name: MIN_DELAY_SECONDS
-          value: "2"
+          value: {{ .Values.delaySeconds.min }}
         resources:
           requests:
             memory: "40Mi"
