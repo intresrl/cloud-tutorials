@@ -4,7 +4,7 @@ const getAllAsyncHandler = (async (req, res, next) => {
     try {
 
         res.status(200).json({
-            success: true, data: await ordersService.getAllAsync({'Istio-demo': req.headers['Istio-demo'] || null})
+            success: true, data: await ordersService.getAllAsync(getHeadersToForward(req))
         });
     } catch (err) {
 
@@ -27,5 +27,18 @@ const getAllRawAsyncHandler = (async (req, res, next) => {
         });
     }
 });
+
+
+const getHeadersToForward = (req) => {
+    const headers = {};
+    const headersToPropagate = ['istio-demo', 'x-request-id'];
+
+    headersToPropagate.forEach(header => {
+        if (req.headers[header]) {
+            headers[header] = req.headers[header] || null
+        }
+    });
+    return headers;
+}
 
 module.exports = {getAllAsyncHandler, getAllRawAsyncHandler}

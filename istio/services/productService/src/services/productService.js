@@ -9,15 +9,18 @@ const getProductNameAsync = async (productId) => {
 }
 
 const getAllAsync = () => {
+
+    const isVip= process.env.VIP_MODE === 'true';
+    const suffix = isVip ? '(VIP)' : '';
     return new Promise((resolve, reject) => {
         resolve([{
-            id: 1, name: 'Apple', price: 100
+            id: 1, name: `Apple ${suffix}`, price: 100
         }, {
-            id: 2, name: 'Pear', price: 200
+            id: 2, name: `Pear ${suffix}`, price: 200
         }, {
-            id: 3, name: 'Banana', price: 175
+            id: 3, name: `Banana ${suffix}`, price: 175
         }, {
-            id: 4, name: 'Kiwi', price: 35
+            id: 4, name: `Kiwi ${suffix}`, price: 35
         }]);
     });
 };

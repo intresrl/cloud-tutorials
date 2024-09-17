@@ -5,7 +5,7 @@
 The aim of this project is to install Istio on a kubernetes cluster and deploy a simple application to test the
 installation.
 The application is composed of three microservices that communicate with each other. Some of the services have issues.
-The orders service forwards the header 'Istio-demo' to the other services.
+The orders service forwards the header 'istio-demo' to the other services.
 The goal is to use Istio to manage the traffic between the services and to apply some policies to manage the issues.
 
 ## Infrastructure/Helm project
@@ -54,11 +54,13 @@ The helm chart installs three different versions of the customer service (Canary
 
 ```bash
 # Istio
-istioctl install --set profile=demo
+istioctl install --set profile=demo --set meshConfig.defaultConfig.tracing.zipkin.address="jaeger-collector.istio-system:9411"
+# Kiali - Service Mesh Observability
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.23/samples/addons/kiali.yaml
 # Prometheus - Metrics
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.23/samples/addons/prometheus.yaml
-# Jaeger - Distributed Tracing
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.23/samples/addons/jaeger.yaml
+# Jaeger - Distributed Tracingkubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.23/samples/addons/jaeger.yaml
+
 ```
 
 NOTE: The demo profile is used to install the default configuration of Istio. The demo profile has low resource
@@ -80,7 +82,7 @@ kubectl label namespace istio-demo istio-injection=enabled
 ### Install the helm chart
 
 ```bash
-helm upgrade --install -n istio-demo istio-demo .
+helm upgrade --install -n orders istio-example .
 ```
 
 ### Open the /api/v1/orders/ endpoint
@@ -108,6 +110,7 @@ istioctl dashboard jaeger
 - Find the service that has the delay issue
     - Configure a timeout on the service
 - Move all the traffic to the V1 version of the customer service
+  - mirror the traffic to the V3 version of the customer service
 - Configure a retry policy
 - Use headers to route the traffic to the V2 version of the customer service
 - Fault injection

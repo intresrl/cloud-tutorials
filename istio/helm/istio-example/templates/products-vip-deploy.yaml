@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: products-vip
+    version: vip
+  name: products-vip
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: products-vip
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: products-vip
+        version: vip
+    spec:
+      containers:
+      - image: th3nu11/istio-example:product-service
+        imagePullPolicy: Always
+        name: istio-example
+        env:
+          - name: VIP_MODE
+            value: "true"
+        resources:
+          requests:
+            memory: "50Mi"
+
