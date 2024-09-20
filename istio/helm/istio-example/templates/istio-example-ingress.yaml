@@ -24,7 +24,7 @@ spec:
           - pathType: Prefix
             backend:
               service:
-                name: products
+                name: products-all
                 port:
                   number: 80
             path: /api/v1/products/

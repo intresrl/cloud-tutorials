@@ -2,8 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: products
-  name: products
+    app: products-all
+  name: products-all
 spec:
   ports:
     - port: 80
@@ -11,4 +11,4 @@ spec:
       targetPort: 5000
   selector:
     app: products
-    version: v1
+

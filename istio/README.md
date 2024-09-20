@@ -5,7 +5,7 @@
 The aim of this project is to install Istio on a kubernetes cluster and deploy a simple application to test the
 installation.
 The application is composed of three microservices that communicate with each other. Some of the services have issues.
-The orders service forwards the header 'istio-demo' to the other services.
+The orders service forwards all the headers that start with "x-" to the other services.
 The goal is to use Istio to manage the traffic between the services and to apply some policies to manage the issues.
 
 ## Infrastructure/Helm project
@@ -114,3 +114,13 @@ istioctl dashboard jaeger
 - Configure a retry policy
 - Use headers to route the traffic to the V2 version of the customer service
 - Fault injection
+
+### Other features
+- Traffic policy
+  - loadbalancer/session affinity (not compatible with traffic shifting)
+- Ingress Gateway (instead of ingress controller)
+- Circuit breaker
+  -  max number of connections
+  -  max number of pending requests
+  -  max number of errors before breaking
+  

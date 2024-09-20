@@ -1,4 +1,5 @@
 const {ordersService} = require("../services");
+const {getHeadersToForward} = require("../utils/headersUtil");
 
 const getAllAsyncHandler = (async (req, res, next) => {
     try {
@@ -29,16 +30,5 @@ const getAllRawAsyncHandler = (async (req, res, next) => {
 });
 
 
-const getHeadersToForward = (req) => {
-    const headers = {};
-    const headersToPropagate = ['istio-demo', 'x-request-id'];
-
-    headersToPropagate.forEach(header => {
-        if (req.headers[header]) {
-            headers[header] = req.headers[header] || null
-        }
-    });
-    return headers;
-}
 
 module.exports = {getAllAsyncHandler, getAllRawAsyncHandler}

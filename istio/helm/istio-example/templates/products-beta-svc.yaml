@@ -2,12 +2,13 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: products-vip
-  name: products-vip
+    app: products-beta
+  name: products-beta
 spec:
   ports:
     - port: 80
       protocol: TCP
       targetPort: 5000
   selector:
-    app: products-vip
+    app: products
+    version: beta
