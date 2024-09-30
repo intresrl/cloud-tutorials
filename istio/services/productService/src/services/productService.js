@@ -1,3 +1,5 @@
+const logger = require('pino')();
+
 const getProductPriceAsync = async (productId) => {
     const product = await getProductById(productId);
     return product ? product.price : null;
@@ -12,7 +14,7 @@ const getAllAsync = () => {
 
     const isBeta= process.env.BETA_MODE === 'true';
     const suffix = isBeta ? ' (BETA)' : '';
-    console.log(`Env variable BETA_MODE is set to ${process.env.BETA_MODE}.`);
+    logger.info(`Env variable BETA_MODE is set to ${process.env.BETA_MODE}.`);
 
     return new Promise((resolve, reject) => {
         resolve([{

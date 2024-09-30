@@ -25,28 +25,28 @@ async function enrichProductDataAsync(product, customersMap, headers) {
 
 async function GetCustomersMapAsync(headers) {
     const productHost = process.env.CUSTOMERS_SERVICE_HOST || 'http://localhost:5003';
-    const response = await fetch(`${productHost}/api/v1/customers/`, {headers});
+    const response = await fetch(`${productHost}/api/v1/`, {headers});
     const {data} = await response.json();
     return new Map(data.map(i => [i.id, {name: i.name, surname: i.surname}]));
 }
 
 async function GetProductsMapAsync(headers) {
     const productHost = process.env.PRODUCTS_SERVICE_HOST || 'http://localhost:5001';
-    const response = await fetch(`${productHost}/api/v1/products/`, {headers});
+    const response = await fetch(`${productHost}/api/v1/`, {headers});
     const {data} = await response.json();
     return new Map(data.map(i => [i.id, i.name]));
 }
 
 async function GetProductNameAsync(productId, headers) {
     const productHost = process.env.PRODUCTS_SERVICE_HOST || 'http://localhost:5001';
-    const response = await fetch(`${productHost}/api/v1/products/${productId}/name`, {headers});
+    const response = await fetch(`${productHost}/api/v1/${productId}/name`, {headers});
     const {data} = await response.json();
     return data;
 }
 
 async function GetProductPriceAsync(productId, headers) {
     const productHost = process.env.PRODUCTS_SERVICE_HOST || 'http://localhost:5001';
-    const response = await fetch(`${productHost}/api/v1/products/${productId}/price`, {headers});
+    const response = await fetch(`${productHost}/api/v1/${productId}/price`, {headers});
     const {data} = await response.json();
     return data;
 }

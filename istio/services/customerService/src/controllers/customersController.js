@@ -1,6 +1,9 @@
 const {customersService} = require("../services");
+const logger = require('pino')();
 
 const getAllAsyncHandler = (async (req, res, next) => {
+    logger.info(req.headers, `getAllAsyncHandler`)
+
     try {
         res.status(200).json({
             success: true,
@@ -9,10 +12,10 @@ const getAllAsyncHandler = (async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-
 });
 
 const getCustomerSurnameAsyncHandler = (async (req, res, next) => {
+    logger.info(req.headers, `getCustomerSurnameAsyncHandler`)
     try {
         res.status(200).json({
             success: true,
@@ -22,7 +25,9 @@ const getCustomerSurnameAsyncHandler = (async (req, res, next) => {
         next(err);
     }
 });
+
 const getCustomerNameAsyncHandler = (async (req, res, next) => {
+    logger.info(req.headers, `getCustomerNameAsyncHandler`)
     try {
         res.status(200).json({
             success: true,

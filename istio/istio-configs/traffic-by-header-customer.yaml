@@ -1,0 +1,49 @@
+kind: VirtualService
+apiVersion: networking.istio.io/v1
+metadata:
+  name: customers
+  namespace: orders
+spec:
+  hosts:
+    - customers.istio-demo.svc.cluster.local
+  http:
+    - match:
+        - headers:
+            x-Is-Betatester:
+              exact: 'true'
+      route:
+        - destination:
+            host: customers.istio-demo.svc.cluster.local
+            subset: v1
+        - destination:
+            host: customers.istio-demo.svc.cluster.local
+            subset: v2
+        - destination:
+            host: customers.istio-demo.svc.cluster.local
+            subset: v3
+          weight: 100
+    - route:
+        - destination:
+            host: customers.istio-demo.svc.cluster.local
+            subset: v1
+          weight: 100
+status: {}
+---
+kind: DestinationRule
+apiVersion: networking.istio.io/v1
+metadata:
+  name: customers
+  namespace: orders
+spec:
+  host: customers.istio-demo.svc.cluster.local
+  subsets:
+    - name: v1
+      labels:
+        version: v1
+    - name: v2
+      labels:
+        version: v2
+    - name: v3
+      labels:
+        version: v3
+status: {}

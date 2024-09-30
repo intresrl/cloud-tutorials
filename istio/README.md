@@ -77,12 +77,13 @@ For more information see [Istio documentation](https://istio.io/latest/docs/setu
 ```bash
 kubectl create namespace istio-demo
 kubectl label namespace istio-demo istio-injection=enabled
+kubectl label namespace ingress-nginx istio-injection=enabled 
 ```
 
 ### Install the helm chart
 
 ```bash
-helm upgrade --install -n orders istio-example .
+helm upgrade --install -n istio-demo istio-example .
 ```
 
 ### Open the /api/v1/orders/ endpoint
@@ -111,9 +112,10 @@ istioctl dashboard jaeger
     - Configure a timeout on the service
 - Move all the traffic to the V1 version of the customer service
   - mirror the traffic to the V3 version of the customer service
-- Configure a retry policy
-- Use headers to route the traffic to the V2 version of the customer service
+- Configure a retry policy*
+- Use headers to route the traffic to customer beta
 - Fault injection
+
 
 ### Other features
 - Traffic policy
@@ -123,4 +125,9 @@ istioctl dashboard jaeger
   -  max number of connections
   -  max number of pending requests
   -  max number of errors before breaking
+
+# TODO
+- Fix nginx ingress controller
+- Try istio gateway
+
   

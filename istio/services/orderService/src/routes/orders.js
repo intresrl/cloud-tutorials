@@ -3,7 +3,7 @@ const router = express.Router();
 
 const {getAllAsyncHandler, getAllRawAsyncHandler} = require('../controllers/ordersController')
 
-router.get('/orders', getAllAsyncHandler);
-router.get('/raw-orders', getAllRawAsyncHandler);
+router.get('/', getAllAsyncHandler);
+router.get('/raw', getAllRawAsyncHandler);
 
 module.exports = router;
