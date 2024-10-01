@@ -1,0 +1,40 @@
+kind: DestinationRule
+apiVersion: networking.istio.io/v1
+metadata:
+  name: products
+  namespace: orders
+spec:
+  host: products.istio-demo.svc.cluster.local
+status: {}
+---
+kind: DestinationRule
+apiVersion: networking.istio.io/v1
+metadata:
+  name: products-beta
+  namespace: orders
+spec:
+  host: products-beta.istio-demo.svc.cluster.local
+status: {}
+---
+kind: VirtualService
+apiVersion: networking.istio.io/v1
+metadata:
+  name: products
+  namespace: orders
+spec:
+  hosts:
+    - products.istio-demo.svc.cluster.local
+  http:
+    - match:
+        - headers:
+            x-Is-Betatester:
+              exact: 'true'
+      route:
+        - destination:
+            host: products-beta.istio-demo.svc.cluster.local
+          weight: 100
+    - route:
+        - destination:
+            host: products.istio-demo.svc.cluster.local
+          weight: 100
+status: {}

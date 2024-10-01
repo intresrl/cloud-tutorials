@@ -1,0 +1,5 @@
+replicaCount: 1
+ingressClassName: nginx
+delaySeconds:
+  max: 5
+  min: 2

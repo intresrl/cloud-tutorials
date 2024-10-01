@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: products
+    version: beta
+  name: products-beta
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: products
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: products
+        version: beta
+    spec:
+      containers:
+      - image: th3nu11/istio-example:product-service
+        imagePullPolicy: Always
+        name: istio-example
+        env:
+          - name: BETA_MODE
+            value: "true"
+        resources:
+          requests:
+            memory: "50Mi"
+

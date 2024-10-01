@@ -1,0 +1,47 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: istio-example-ingress
+  annotations:
+    sidecar.istio.io/inject: 'true'
+    nginx.ingress.kubernetes.io/rewrite-target: /api/v1/
+spec:
+  ingressClassName: {{ .Values.ingressClassName }}
+  rules:
+    - http:
+        paths:
+          - pathType: Prefix
+            backend:
+              service:
+                name: orders
+                port:
+                  number: 80
+            path: /api/v1/orders/
+          - pathType: Prefix
+            backend:
+              service:
+                name: customers
+                port:
+                  number: 80
+            path: /api/v1/customers/
+          - pathType: Prefix
+            backend:
+              service:
+                name: products
+                port:
+                  number: 80
+            path: /api/v1/products/
+          - pathType: Prefix
+            backend:
+              service:
+                name: products-beta
+                port:
+                  number: 80
+            path: /api/v1/products-beta/
+#          - pathType: Prefix
+#            backend:
+#              service:
+#                name: products-all
+#                port:
+#                  number: 80
+#            path: /api/v1/products-all/

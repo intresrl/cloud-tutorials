@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: customers
+    version: v2
+  name: customers-v2
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: customers
+      version: v2
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: customers
+        version: v2
+    spec:
+      containers:
+      - image: th3nu11/istio-example:customer-service
+        imagePullPolicy: Always
+        name: istio-example
+        env:
+        - name: MAX_DELAY_SECONDS
+          value: "{{ .Values.delaySeconds.max }}"
+        - name: MIN_DELAY_SECONDS
+          value: "{{ .Values.delaySeconds.min }}"
+        resources:
+          requests:
+            memory: "40Mi"
