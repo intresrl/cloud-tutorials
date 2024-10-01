@@ -2,9 +2,8 @@
 
 ## Aim
 
-The aim of this project is to install Istio on a kubernetes cluster and deploy a simple application to test the
-installation.
-The application is composed of three microservices that communicate with each other. Some of the services have issues.
+The aim of this project is to install Istio on a kubernetes cluster with a simple application to test the Istio features.
+The application is composed of three microservices (Orders, Products and Customers) that communicate with each other. Some of the services have issues.
 The orders service forwards all the headers that start with "x-" to the other services.
 The goal is to use Istio to manage the traffic between the services and to apply some policies to manage the issues.
 
@@ -13,14 +12,14 @@ The goal is to use Istio to manage the traffic between the services and to apply
 This project install three microservices:
 
 - orders
-- products
-- customers
+- products: two versions but only one is used. The second version (beta) is not used by the orders service.
+- customers (three versions all served by the same service, classic canary deployment)
 
 All services are exposes by an ingress gateway. Endpoints:
 
 - orders service:
     - /api/v1/orders/
-    - /api/v1/raw-orders/
+    - /api/v1/orders/raw
 - customers service:
     - /customers
     - /customer/:customer_id/surname
@@ -29,6 +28,10 @@ All services are exposes by an ingress gateway. Endpoints:
     - /api/v1/products
     - /api/v1/products/:productId/price
     - /api/v1/products/:productId/name
+- products service (BETA):
+  - /api/v1/products-beta
+  - /api/v1/products-beta/:productId/price
+  - /api/v1/products-beta/:productId/name
 
 The endpoint /api/v1/orders/ returns a list of orders enriched with the customer name and surname and the product name
 and price.
@@ -110,12 +113,12 @@ istioctl dashboard jaeger
 
 - Find the service that has the delay issue
     - Configure a timeout on the service
-- Move all the traffic to the V1 version of the customer service
+- Move all the traffic to the V1 version of the customer service [all-traffic-on-customer1.yaml](istio-configs%2Fall-traffic-on-customer1.yaml)
   - mirror the traffic to the V3 version of the customer service
 - Configure a retry policy*
-- Use headers to route the traffic to customer beta
-- Fault injection
-
+- Use header (X-Is-Betatester: true) to route the traffic to products beta service [traffic-by-header-products.yaml](istio-configs%2Ftraffic-by-header-products.yaml)
+- Fault injection/delay
+- Force https/strict mode on product service (order continue to work but you cannot access the product service directly) [production-strictmode.yaml](istio-configs%2Fproduction-strictmode.yaml). 
 
 ### Other features
 - Traffic policy
