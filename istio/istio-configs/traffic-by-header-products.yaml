@@ -2,7 +2,7 @@ kind: DestinationRule
 apiVersion: networking.istio.io/v1
 metadata:
   name: products
-  namespace: orders
+  namespace: istio-demo
 spec:
   host: products.istio-demo.svc.cluster.local
 status: {}
@@ -11,7 +11,7 @@ kind: DestinationRule
 apiVersion: networking.istio.io/v1
 metadata:
   name: products-beta
-  namespace: orders
+  namespace: istio-demo
 spec:
   host: products-beta.istio-demo.svc.cluster.local
 status: {}
@@ -20,7 +20,7 @@ kind: VirtualService
 apiVersion: networking.istio.io/v1
 metadata:
   name: products
-  namespace: orders
+  namespace: istio-demo
 spec:
   hosts:
     - products.istio-demo.svc.cluster.local

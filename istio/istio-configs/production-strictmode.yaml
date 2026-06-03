@@ -2,7 +2,7 @@ apiVersion: security.istio.io/v1beta1
 kind: PeerAuthentication
 metadata:
   name: production-mtls-strict
-  namespace: orders
+  namespace: istio-demo
 spec:
   selector:
     matchLabels:
