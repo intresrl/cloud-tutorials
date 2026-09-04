@@ -13,5 +13,8 @@
     "@google-cloud/bigquery": "^7.7.0",
     "express": "^4.19.2",
     "node-json2html": "^3.0.0"
+  },
+  "overrides": {
+    "qs": "^6.16.0"
   }
 }
